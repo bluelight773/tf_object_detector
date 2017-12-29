@@ -1,0 +1,9 @@
+tensorflow-gpu
+pillow
+lxml
+jupyter
+matplotlib
+
+# For OpenCV
+numpy
+opencv-contrib-python
