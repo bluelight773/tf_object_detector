@@ -42,6 +42,6 @@ Tensorflow manually.
 * `detect_objects_in_images.py`: Standalone script/module illustrating use of TensorFlow's Object Detector API with a
 pre-trained model to detect various objects in an image.  If run as main the detection will be applied to 2 test_images 
 in `models/research/object_detection`. If imported, the main function of interest will be 
-`show_detected_objects_in_video`.
+`show_detected_objects_in_images`.
 * `detect_objects_in_video.py`: Standalone script/module illustrating use of TensorFlow's Object Detector API with a
 pre-trained model to detect various objects appearing in the default webcam video stream.
