@@ -13,7 +13,8 @@ finetuning).
 ## Environment
 
 Instructions are based on running in an Ubuntu 16.04 LTS environment with Python 3.5 and based on the state of libraries
-and installation at the time of this writing including TensorFlow 1.4.1.
+and installation at the time of this writing.  TensorFlow 1.4.1 was used.  Key library version are specified in
+`requirements.txt`.
 
 ## Setup
 1. Ensure virtualenv and mkvirtualenvwrapper are installed.  Their installation instructions can be found here:
@@ -30,7 +31,9 @@ Tensorflow manually.
 6. Clone tensorflow models directory into the repo root: 
 
     `git clone github.com/tensorflow/models.git`
-7. Install Protobuf Compiler. You may want to ensure that you're installing the latest version to avoid issues later on.
+7. Install Protobuf Compiler. At the time of this writing, Protobuf Compiler version 3.5.1 was used, which works well
+with the other library versions specified in `requirements.txt`.  If you use the latest library versions, then you'll
+likely want to ensure you also use the latest Protobuf Compiler.
     ```
     wget https://github.com/google/protobuf/releases/download/v3.5.1/protoc-3.5.1-linux-x86_64.zip
     unzip protoc-3.5.1-linux-x86_64.zip -d protoc3
@@ -61,12 +64,13 @@ of objects (ie, multiple labels) although it may be quite simple to add such sup
 
 1. Collect images from whatever sources you may have, Google, Bing and/or ImageNet for your object and place in a
 "dataset" folder inside the repo root. Ensure many of the images show a lot of context (rather than simply having the
-object of interest cover virtually the whole image).  Also, ideally aim for variety in the images while also ensuring 
-they resemble what you expect the real-world input to the object detector to look like as much as possible.  Also,
-preferably ensure image filenames don't have periods in them, or even better to restrict to alphanumeric characters due
-to potential issues that may arise later when using labelImg tool.  The more images the better.  For good performance
-you may need around 1000 images, but at a minimum if you just want to do a quick illustrative run, have at least 100 
-images.
+object of interest cover virtually the whole image).  Also, ideally aim for variety in the images, such as in terms of 
+scale, pose and lighting while also ensuring a good portion may resemble what you expect the real-world input to look
+like.  Also, preferably ensure image filenames don't have periods in them, or even better to restrict to alphanumeric
+characters due to potential issues that may arise later when using labelImg tool.  The more images the better.  For good
+performance on a difficult scenario you may need around 1000 images, but if you just want a quick illustrative run or
+are lucky (e.g. have a good training set for your scenario and your scenario is quite constrained), then you may get
+away with as few as 100-200 training images.
 
 2. Label images via labelimg (https://github.com/tzutalin/labelimg).
 To install and use labelimg tool, while in the tf_object_dector repo root and in the tf-object-detector virtual
