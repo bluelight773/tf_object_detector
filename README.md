@@ -68,9 +68,8 @@ object of interest cover virtually the whole image).  Also, ideally aim for vari
 scale, pose and lighting while also ensuring a good portion may resemble what you expect the real-world input to look
 like.  Also, preferably ensure image filenames don't have periods in them, or even better to restrict to alphanumeric
 characters due to potential issues that may arise later when using labelImg tool.  The more images the better.  For good
-performance on a difficult scenario you may need around 1000 images, but if you just want a quick illustrative run or
-are lucky (e.g. have a good training set for your scenario and your scenario is quite constrained), then you may get
-away with as few as 100-200 training images.
+performance you'll likely need 1000+ training images, but if you just want a quick illustrative run that'll likely work
+in a few simple cases and fail in many others, then you may start out with around 100 training images.
 
 2. Label images via labelimg (https://github.com/tzutalin/labelimg).
 To install and use labelimg tool, while in the tf_object_dector repo root and in the tf-object-detector virtual
