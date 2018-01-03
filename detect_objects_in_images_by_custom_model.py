@@ -1,9 +1,9 @@
 # coding: utf-8
 """
-Script illustrating use of TensorFlow's Object Detector API with a pre-trained model to detect various objects
-in a video stream (default webcam).
+Script/module illustrating use of TensorFlow's Object Detector API with a custom model to detect various objects
+in images.
 
-Press 'x' to exit.
+When run as main, the detection will be applied to 3 test images in dataset/test.
 
 Ensure PATH_TO_TF_MODELS_OBJECT_DETECTION points to the full path of models/research/object_detection
 By default that path is assumed to be inside the repo root.
@@ -16,14 +16,18 @@ https://github.com/tensorflow/models/blob/master/research/object_detection/objec
 
 import numpy as np
 import os
+import glob
 import urllib.request
 import sys
 import tarfile
 import tensorflow as tf
 
-# Added for video stream
-import cv2
-capture = cv2.VideoCapture(0)
+from matplotlib import pyplot as plt
+from PIL import Image
+
+# This is needed so that we ensure plots actually show by using pylab.show(). Note that they'll show in a blocking
+# manner.
+import pylab
 
 
 if tf.__version__ < "1.4.0":
@@ -47,34 +51,17 @@ from utils import visualization_utils as vis_util
 # Variables
 # Any model exported using the 'export_inference_graph.py' tool can be loaded here simply by changing PATH_TO_CKPT to
 # point to a new .pb file.
-# 
-# By default we use an "SSD with Mobilenet" model here. See the [detection model zoo]
-# (https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md) for a list
-# of other models that can be run out-of-the-box with varying speeds and accuracies.
 
-# What model to download.
-MODEL_NAME = "ssd_mobilenet_v1_coco_2017_11_17"
-MODEL_FILE = MODEL_NAME + ".tar.gz"
-DOWNLOAD_BASE = "http://download.tensorflow.org/models/object_detection/"
+# What model to use.
+MODEL_NAME = "output_inference_graph"
 
 # Path to frozen detection graph. This is the actual model that is used for the object detection.
-PATH_TO_CKPT = os.path.join(PATH_TO_TF_MODELS_OBJECT_DETECTION, MODEL_NAME, "frozen_inference_graph.pb")
+PATH_TO_CKPT = os.path.join(PATH_TO_REPO_ROOT, MODEL_NAME, "frozen_inference_graph.pb")
 
 # List of the strings that is used to add correct label for each box.
-PATH_TO_LABELS = os.path.join(PATH_TO_TF_MODELS_OBJECT_DETECTION, "data", "mscoco_label_map.pbtxt")
+PATH_TO_LABELS = os.path.join(PATH_TO_REPO_ROOT, "dataset", "label_map.pbtxt")
 
-NUM_CLASSES = 90
-
-# Download Model if PATH_TO_CKPT doesn't already exist
-if not os.path.exists(PATH_TO_CKPT):
-    urllib.request.urlretrieve(DOWNLOAD_BASE + MODEL_FILE, MODEL_FILE)
-    tar_file = tarfile.open(MODEL_FILE)
-    for file in tar_file.getmembers():
-        file_name = os.path.basename(file.name)
-        if "frozen_inference_graph.pb" in file_name:
-            tar_file.extract(file, PATH_TO_TF_MODELS_OBJECT_DETECTION)
-    # Delete the downloaded tar having already extracted its contents
-    os.remove(MODEL_FILE)
+NUM_CLASSES = 1
 
 # Load a (frozen) TensorFlow model into memory.
 detection_graph = tf.Graph()
@@ -104,8 +91,8 @@ def load_image_into_numpy_array(image):
 
 # Detection
 
-def show_detected_objects_in_video(detection_graph=detection_graph):
-    """Display the default webcam's stream whereby frames show boxes and labels for detected objects."""
+def show_detected_objects_in_images(image_paths, detection_graph=detection_graph):
+    """Given a list of paths to images, display each image (one by one) with boxes and labels for detected objects."""
     with detection_graph.as_default():
         with tf.Session(graph=detection_graph) as sess:
             # Definite input and output Tensors for detection_graph
@@ -113,19 +100,15 @@ def show_detected_objects_in_video(detection_graph=detection_graph):
             # Each box represents a part of the image where a particular object was detected.
             detection_boxes = detection_graph.get_tensor_by_name("detection_boxes:0")
             # Each score represent how level of confidence for each of the objects.
-            # Score is shown on the result frame, together with the class label.
+            # Score is shown on the result image, together with the class label.
             detection_scores = detection_graph.get_tensor_by_name("detection_scores:0")
             detection_classes = detection_graph.get_tensor_by_name("detection_classes:0")
             num_detections = detection_graph.get_tensor_by_name("num_detections:0")
-            while True:
-                # Added for video stream
-                # Get an image fram from the video stream
-                ret_val, image_np = capture.read()
-
-                # No frames were captured, so quitting
-                if not ret_val:
-                    return
-
+            for image_path in image_paths:
+                image = Image.open(image_path)
+                # the array based representation of the image will be used later in order to prepare the
+                # result image with boxes and labels on it.
+                image_np = load_image_into_numpy_array(image)
                 # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
                 image_np_expanded = np.expand_dims(image_np, axis=0)
                 # Actual detection.
@@ -141,16 +124,14 @@ def show_detected_objects_in_video(detection_graph=detection_graph):
                     category_index,
                     use_normalized_coordinates=True,
                     line_thickness=8)
-
-                # Show video stream frame with a reasonable size/aspect ratio
-                cv2.imshow("object detection", cv2.resize(image_np, (800, 600)))
-
-                # If we just press "x" we'll exit
-                # This block is also needed to keep iterating through the frames.
-                if cv2.waitKey(25) & 0xFF == ord("x"):
-                    cv2.destroyAllWindows()
-                    break
+                # Use an output image size of 12 inches by 8 inches
+                plt.figure(figsize=(12, 8))
+                plt.imshow(image_np)
+                pylab.show()
 
 
 if __name__ == "__main__":
-    show_detected_objects_in_video()
+    # Use 3 images in the test dataset to test out the inference on
+    PATH_TO_TEST_IMAGES_DIR = os.path.join(PATH_TO_REPO_ROOT, "dataset", "test")
+    TEST_IMAGE_PATHS = glob.glob(os.path.join(PATH_TO_TEST_IMAGES_DIR, "*.jpg"))[:3]
+    show_detected_objects_in_images(TEST_IMAGE_PATHS)

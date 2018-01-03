@@ -1,13 +1,12 @@
 # coding: utf-8
 """
 Script/module illustrating use of TensorFlow's Object Detector API with a pre-trained model to detect various objects
-in an image.
+in images.
 
-If run as main the detection will be applied to 2 test_images in models/research/object_detection.
-If imported, the main function of interest will be show_detected_objects_in_video.
+When run as main, the detection will be applied to 2 test_images in models/research/object_detection.
 
 Ensure PATH_TO_TF_MODELS_OBJECT_DETECTION points to the full path of models/research/object_detection
-By default that path is assumed to be inside the repo root
+By default that path is assumed to be inside the repo root.
 
 Note that the code was tested on an environment consisting of Ubuntu 16.04 LTS, Python 3.5 and TensorFlow 1.4.1.
 

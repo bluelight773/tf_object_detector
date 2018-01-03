@@ -1,7 +1,7 @@
 # coding: utf-8
 """
-Script illustrating use of TensorFlow's Object Detector API with a pre-trained model to detect various objects
-in a video stream (default webcam).
+Script illustrating use of TensorFlow's Object Detector API with a custom model to detect various objects in a video
+stream (default webcam).
 
 Press 'x' to exit.
 
@@ -16,6 +16,7 @@ https://github.com/tensorflow/models/blob/master/research/object_detection/objec
 
 import numpy as np
 import os
+import glob
 import urllib.request
 import sys
 import tarfile
@@ -47,34 +48,17 @@ from utils import visualization_utils as vis_util
 # Variables
 # Any model exported using the 'export_inference_graph.py' tool can be loaded here simply by changing PATH_TO_CKPT to
 # point to a new .pb file.
-# 
-# By default we use an "SSD with Mobilenet" model here. See the [detection model zoo]
-# (https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md) for a list
-# of other models that can be run out-of-the-box with varying speeds and accuracies.
 
-# What model to download.
-MODEL_NAME = "ssd_mobilenet_v1_coco_2017_11_17"
-MODEL_FILE = MODEL_NAME + ".tar.gz"
-DOWNLOAD_BASE = "http://download.tensorflow.org/models/object_detection/"
+# What model to use.
+MODEL_NAME = "output_inference_graph"
 
 # Path to frozen detection graph. This is the actual model that is used for the object detection.
-PATH_TO_CKPT = os.path.join(PATH_TO_TF_MODELS_OBJECT_DETECTION, MODEL_NAME, "frozen_inference_graph.pb")
+PATH_TO_CKPT = os.path.join(PATH_TO_REPO_ROOT, MODEL_NAME, "frozen_inference_graph.pb")
 
 # List of the strings that is used to add correct label for each box.
-PATH_TO_LABELS = os.path.join(PATH_TO_TF_MODELS_OBJECT_DETECTION, "data", "mscoco_label_map.pbtxt")
+PATH_TO_LABELS = os.path.join(PATH_TO_REPO_ROOT, "dataset", "label_map.pbtxt")
 
-NUM_CLASSES = 90
-
-# Download Model if PATH_TO_CKPT doesn't already exist
-if not os.path.exists(PATH_TO_CKPT):
-    urllib.request.urlretrieve(DOWNLOAD_BASE + MODEL_FILE, MODEL_FILE)
-    tar_file = tarfile.open(MODEL_FILE)
-    for file in tar_file.getmembers():
-        file_name = os.path.basename(file.name)
-        if "frozen_inference_graph.pb" in file_name:
-            tar_file.extract(file, PATH_TO_TF_MODELS_OBJECT_DETECTION)
-    # Delete the downloaded tar having already extracted its contents
-    os.remove(MODEL_FILE)
+NUM_CLASSES = 1
 
 # Load a (frozen) TensorFlow model into memory.
 detection_graph = tf.Graph()

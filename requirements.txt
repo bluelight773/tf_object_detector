@@ -7,3 +7,6 @@ matplotlib
 # For OpenCV
 numpy
 opencv-contrib-python
+
+# For xml_to_csv.py and generate_tfrecord.py - for building one's own model.
+pandas
