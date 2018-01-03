@@ -162,28 +162,52 @@ https://github.com/tensorflow/models/tree/master/research/object_detection/sampl
     Note you may lower the `batch_size` if you're running into memory error.
 `
 
-11. Create an empty "training" folder in repo root for TensorFlow output during training.
+11. In the repo root, create an empty "tf_run" folder that contains empty "train" and "eval" folders for TensorFlow
+output during training and evaluation.
 
-12. Begining training your model (which will be the result of finetuning the pretraining model):
+12. Begin training your model (which will be the result of finetuning the pretraining model):
     ```
     cd models/research
     export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim
     cd object_detection
-    python train.py --logtostderr --train_dir=../../../training --pipeline_config_path=../../../ssd_inception_v2_pets.config
+    python train.py --logtostderr --train_dir=../../../tf_run/train --pipeline_config_path=../../../ssd_inception_v2_pets.config
     ```
 
-13. While training is running, you can track progress using tensorboard. From repo root, you can launch tensorboard as
-follows then view the progress at localhost:6006 paying close attention to the TotalLoss graph.
+13. Once training has begun, initiate the evaluation process (say in a different terminal window), which will poll the
+training directory to obtain precision metrics against the test data.
+    ```
+    cd models/research
+    export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim
+    cd object_detection
+    python eval.py --logtostderr --eval_dir=../../../tf_run/eval --pipeline_config_path=../../../ssd_inception_v2_pets.config --checkpoint_dir=../../../tf_run/train
+    ```
+    If you run the training and evaluation simultaneously, you may end up with a GPU memory error.  One workaround is to
+    add the following lines at the top of `eval.py`, so that the evaluation process uses the CPU instead of the GPU.
+    ```
+    import os
+    os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+    ```
+    
+    Alternatively, you could just rely on the training process, and can optionally run evaluation after training has
+    been terminated following a given checkpoint.
+    
+
+14. While training and evaluation are running, you can track progress using tensorboard. From repo root, you can launch
+tensorboard as follows then view the progress at localhost:6006 paying close attention to the TotalLoss (based on 
+training data) and Mean Average Precision (based on test data).
 
     ```
-    tensorboard --logdir=training/
+    tensorboard --logdir=tf_run/
     ```
 
-14. Terminate the training process once the total loss seems to stabilize and is at least under 1, which could be
-tracked in tensorboard.  This may take roughly several thousand steps, but the number of steps may vary greatly
+15. Terminate the training process once you believe good performance has been achieved.  Rough guidelines are to aim for
+total loss (against the training data) to be under 1 and the mean average precision to be minimally above 80%.  Ideally,
+you'd want to stop at a point when both metrics are improving but right before the total loss' decline starts outpacing
+the average precision's improvement as that suggests overfitting.  As suggested earlier, these metrics can all be
+tracked in tensorboard.  You may have to wait roughly several thousand steps, but the number of steps may vary greatly
 depending on the data and parameters. 
 
-15. Export the inference graph then use it to do the object detection. Update the commandline parameters as needed in
+16. Export the inference graph then use it to do the object detection. Update the commandline parameters as needed in
 your scenario though only the ckpt-#### will need updating if you followed the instructions (including model, config and
 path selection) as is above.  Note that you should use the model.ckpt-#### corresponding to the step of interest (e.g.
 when the checkpoint with the lowest totalloss was achieved).
@@ -199,7 +223,7 @@ when the checkpoint with the lowest totalloss was achieved).
         --output_directory ../../../output_inference_graph
     ```
 
-16. Use the new model.  If you followed the same file/folder naming conventions in the instruction above, just had
+17. Use the new model.  If you followed the same file/folder naming conventions in the instruction above, just had
 1 class (label), and your images were in .jpg format, then you can now simply run 
 `python detect_objects_in_images_by_custom_model.py` or  `python detect_objects_in_video_by_custom_model.py` to see your
 model in action.
