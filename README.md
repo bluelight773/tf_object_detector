@@ -12,20 +12,21 @@ finetuning).
 
 ## Environment
 
-Instructions are based on running in an Ubuntu 16.04 LTS environment with Python 3.5 and based on the state of libraries
-and installation at the time of this writing.  TensorFlow 1.4.1 was used.  Key library version are specified in
+Instructions are based on running in an Ubuntu 18.04 LTS environment with Python 3.6.8 and based on the state of libraries
+and installation at the time of this writing.  TensorFlow 1.13.1 was used.  Key library version are specified in
 `requirements.txt`.
 
 ## Setup
-1. Ensure virtualenv and mkvirtualenvwrapper are installed.  Their installation instructions can be found here:
-http://exponential.io/blog/2015/02/10/install-virtualenv-and-virtualenvwrapper-on-ubuntu/
+1. Ensure venv is installed to use a virtual environment:
+
+    `sudo apt-get install -y python3-venv`
 
 2. Now create a virtual environment for this project:
 
-    `mkvirtualenv --clear -p python3.5 tf-object-detector`
+    `python3 -m venv ~/envs/tf_object_detector_env`
 3. Clone the repo
-4. Ensure CUDA 8 and CUDNN 6 are installed. See instructions at
-https://gist.github.com/mjdietzx/0ff77af5ae60622ce6ed8c4d9b419f45
+4. Ensure CUDA 10.0 and CUDNN 7.5.0 are installed. See instructions at 
+https://medium.com/@zhanwenchen/install-cuda-10-1-and-cudnn-7-5-0-for-pytorch-on-ubuntu-18-04-lts-9b6124c44c
 5. Install the requirements: `pip install -r requirements.txt`.  Note depending on your machine, you may wish to install
 Tensorflow manually.
 6. Clone tensorflow models directory into the repo root: 
@@ -46,6 +47,9 @@ likely want to ensure you also use the latest Protobuf Compiler.
     cd models/research
     protoc object_detection/protos/*.proto --python_out=.
     ```
+
+9. Ensure tkinter is installed for the purposes of displaying images when running a Python script from the command line
+    `sudo apt-get install python3-tk`
 
 ## Using Pre-trained Object Detection Models
 * `detect_objects_in_images.py`: Standalone script/module illustrating use of TensorFlow's Object Detector API with a
@@ -72,7 +76,7 @@ performance you'll likely need 1000+ training images, but if you just want a qui
 in a few simple cases and fail in many others, then you may start out with around 100 training images.
 
 2. Label images via labelimg (https://github.com/tzutalin/labelimg).
-To install and use labelimg tool, while in the tf_object_dector repo root and in the tf-object-detector virtual
+To install and use labelimg tool, while in the tf_object_dector repo root and in the tf_object_detector_env virtual
 environment, run:
 ```
     git clone git@github.com:tzutalin/labelImg.git
