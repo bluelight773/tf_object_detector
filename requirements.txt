@@ -1,12 +1,15 @@
-tensorflow-gpu==1.4.1
-pillow==4.3.0
-lxml==4.1.1
-jupyter==1.0.0
-matplotlib==2.1.1
+# To ensure installation of libraries succeeds
+wheel
+
+tensorflow-gpu==1.13.1
+pillow
+lxml
+#jupyter -- maybe remove
+matplotlib
 
 # For OpenCV
-numpy==1.13.3
-opencv-contrib-python==3.4.0.12
+numpy
+opencv-contrib-python
 
 # For xml_to_csv.py and generate_tfrecord.py - for building one's own model.
-pandas==0.22.0
+pandas

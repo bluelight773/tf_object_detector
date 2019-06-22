@@ -30,7 +30,7 @@ https://gist.github.com/mjdietzx/0ff77af5ae60622ce6ed8c4d9b419f45
 Tensorflow manually.
 6. Clone tensorflow models directory into the repo root: 
 
-    `git clone github.com/tensorflow/models.git`
+    `git clone https://github.com/tensorflow/models.git`
 7. Install Protobuf Compiler. At the time of this writing, Protobuf Compiler version 3.5.1 was used, which works well
 with the other library versions specified in `requirements.txt`.  If you use the latest library versions, then you'll
 likely want to ensure you also use the latest Protobuf Compiler.

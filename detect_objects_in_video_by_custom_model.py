@@ -27,9 +27,6 @@ import cv2
 capture = cv2.VideoCapture(0)
 
 
-if tf.__version__ < "1.4.0":
-    raise ImportError("Please upgrade your tensorflow installation to v1.4.* or later!")
-
 # Env setup
 
 # Programmatically adding necessary paths to PYTHONPATH

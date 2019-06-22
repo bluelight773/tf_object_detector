@@ -28,10 +28,6 @@ from PIL import Image
 # manner.
 import pylab
 
-
-if tf.__version__ < "1.4.0":
-    raise ImportError("Please upgrade your tensorflow installation to v1.4.* or later!")
-
 # Env setup
 
 # Programmatically adding necessary paths to PYTHONPATH
@@ -44,6 +40,11 @@ sys.path.append(PATH_TO_TF_MODELS_OBJECT_DETECTION)
 # Here are the imports from the object detection module.
 from utils import label_map_util
 from utils import visualization_utils as vis_util
+
+# Ensure tkinter backend is used for matplotlib to display images
+import matplotlib
+matplotlib.use('TkAgg')
+
 
 # Model preparation
 
@@ -108,6 +109,7 @@ def load_image_into_numpy_array(image):
 # Detection
 
 def show_detected_objects_in_images(image_paths, detection_graph=detection_graph):
+
     """Given a list of paths to images, display each image (one by one) with boxes and labels for detected objects."""
     with detection_graph.as_default():
         with tf.Session(graph=detection_graph) as sess:
