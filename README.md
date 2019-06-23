@@ -1,4 +1,4 @@
-# tf_object_detector
+# TensorFlow Object Detector
 
 This repo is largely based on the following:
 * [TensorFlow Object Detection Notebook](https://github.com/tensorflow/models/blob/master/research/object_detection/object_detection_tutorial.ipynb)
@@ -25,8 +25,8 @@ and installation at the time of this writing.  TensorFlow 1.13.1 was used.  Key 
 
     `python3 -m venv ~/envs/tf_object_detector_env`
 3. Clone the repo
-4. Ensure CUDA 10.0 and CUDNN 7.5.0 are installed. See instructions at 
-<https://medium.com/@zhanwenchen/install-cuda-10-1-and-cudnn-7-5-0-for-pytorch-on-ubuntu-18-04-lts-9b6124c44c>.
+4. Ensure CUDA 10.0 and CUDNN 7.5.0 are installed. Installation instructions for Ubuntu 18.04 can be found 
+[here](https://medium.com/@zhanwenchen/install-cuda-10-1-and-cudnn-7-5-0-for-pytorch-on-ubuntu-18-04-lts-9b6124c44cc).
 5. Install the requirements: `pip install -r requirements.txt`.  Note depending on your machine, you may wish to install
 Tensorflow manually.
 6. Clone tensorflow models directory into the repo root: 
