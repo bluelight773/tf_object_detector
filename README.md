@@ -26,7 +26,7 @@ and installation at the time of this writing.  TensorFlow 1.13.1 was used.  Key 
     `python3 -m venv ~/envs/tf_object_detector_env`
 3. Clone the repo
 4. Ensure CUDA 10.0 and CUDNN 7.5.0 are installed. See instructions at 
-<https://medium.com/@zhanwenchen/install-cuda-10-1-and-cudnn-7-5-0-for-pytorch-on-ubuntu-18-04-lts-9b6124c44c>
+<https://medium.com/@zhanwenchen/install-cuda-10-1-and-cudnn-7-5-0-for-pytorch-on-ubuntu-18-04-lts-9b6124c44c>.
 5. Install the requirements: `pip install -r requirements.txt`.  Note depending on your machine, you may wish to install
 Tensorflow manually.
 6. Clone tensorflow models directory into the repo root: 
@@ -123,7 +123,7 @@ at 1, such as:
     A list of pretrained models can be found here:
 https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md
 
-    Select a model best suited for your purposes. For instance, if you need real-time speed, you may prefer to sacrifice
+    Select a model best suited for your purpose. For instance, if you need real-time speed, you may prefer to sacrifice
     precision for speed.  Also, you may wish to select a model that relied on a dataset with labels closest to your
     label of interest.
 
