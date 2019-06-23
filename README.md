@@ -6,7 +6,7 @@ This repo is largely based on the following:
 * [PythonProgramming on TensorFlow Object Detection](https://pythonprogramming.net/introduction-use-tensorflow-object-detection-api-tutorial/)
 
 ## Motivation
-This repo illustrates how one may use Tensorflow's Object Detector to detect various objects (e.g. person, dog, kite)
+This repo illustrates how one may use Tensorflow's Object Detector to detect various objects (e.g., person, dog, kite)
 within an image or webcam video stream using pretrained models as well as how to build and use one's own model (via
 finetuning).
 
@@ -26,7 +26,7 @@ and installation at the time of this writing.  TensorFlow 1.13.1 was used.  Key 
     `python3 -m venv ~/envs/tf_object_detector_env`
 3. Clone the repo
 4. Ensure CUDA 10.0 and CUDNN 7.5.0 are installed. See instructions at 
-https://medium.com/@zhanwenchen/install-cuda-10-1-and-cudnn-7-5-0-for-pytorch-on-ubuntu-18-04-lts-9b6124c44c
+<https://medium.com/@zhanwenchen/install-cuda-10-1-and-cudnn-7-5-0-for-pytorch-on-ubuntu-18-04-lts-9b6124c44c>
 5. Install the requirements: `pip install -r requirements.txt`.  Note depending on your machine, you may wish to install
 Tensorflow manually.
 6. Clone tensorflow models directory into the repo root: 
@@ -57,7 +57,7 @@ pre-trained model to detect various objects in an image.  If run as main, the de
 in `models/research/object_detection`. If imported, the main function of interest will be 
 `show_detected_objects_in_images`.
 * `detect_objects_in_video.py`: Standalone script/module illustrating use of TensorFlow's Object Detector API with a
-pre-trained model to detect various objects appearing in the default webcam video stream.
+pre-trained model to detect various objects appearing in the default webcam video stream. Press 'x' to exit.
 * Assuming you'd followed the Setup instructions, key variables of interest if you'd prefer to use a different
 pretrained model are: MODEL_NAME, PATH_TO_LABELS, and NUM_CLASSES.
 
