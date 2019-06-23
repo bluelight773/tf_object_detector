@@ -48,7 +48,7 @@ likely want to ensure you also use the latest Protobuf Compiler.
     protoc object_detection/protos/*.proto --python_out=.
     ```
 
-9. Ensure tkinter is installed for the purposes of displaying images when running a Python script from the command line
+9. Ensure tkinter is installed for the purpose of displaying images when running a Python script from the command line
     `sudo apt-get install python3-tk`
 
 ## Using Pre-trained Object Detection Models
@@ -123,7 +123,7 @@ at 1, such as:
     A list of pretrained models can be found here:
 https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md
 
-    Select a model best suited for your purpose. For instance, if you need real-time speed, you may prefer to sacrifice
+    Select a model best suited for your purposes. For instance, if you need real-time speed, you may prefer to sacrifice
     precision for speed.  Also, you may wish to select a model that relied on a dataset with labels closest to your
     label of interest.
 
