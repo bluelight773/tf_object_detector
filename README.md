@@ -17,22 +17,29 @@ and installation at the time of this writing.  TensorFlow 1.13.1 was used.  Key 
 `requirements.txt`.
 
 ## Setup
-1. Ensure venv is installed to use a virtual environment:
+1. Ensure venv is installed to use a virtual environment. The following command works for Python 3.6:
 
-    `sudo apt-get install -y python3-venv`
+    `sudo apt-get install -y python3.6-venv`
 
-2. Now create a virtual environment for this project:
+2. Now create a virtual environment for this project using a command such as the following:
 
     `python3 -m venv ~/envs/tf_object_detector_env`
 3. Clone the repo
 4. Ensure CUDA 10.0 and CUDNN 7.5.0 are installed. Installation instructions for Ubuntu 18.04 can be found 
 [here](https://medium.com/@zhanwenchen/install-cuda-10-1-and-cudnn-7-5-0-for-pytorch-on-ubuntu-18-04-lts-9b6124c44cc).
-5. Install the requirements: `pip install -r requirements.txt`.  Note depending on your machine, you may wish to install
+5. Activate the virtual environment with a command such as the following. Note that deactivation can be done using 
+`deactivate`:
+
+    `source ~/envs/tf_object_detector_env/bin/activate`
+6. Ensure pip is updated:
+
+    `pip install --upgrade pip`
+7. Install the requirements: `pip install -r requirements.txt`.  Note depending on your machine, you may wish to install
 Tensorflow manually.
-6. Clone tensorflow models directory into the repo root: 
+8. Clone tensorflow models directory into the repo root: 
 
     `git clone https://github.com/tensorflow/models.git`
-7. Install Protobuf Compiler. At the time of this writing, Protobuf Compiler version 3.5.1 was used, which works well
+9. Install Protobuf Compiler. At the time of this writing, Protobuf Compiler version 3.5.1 was used, which works well
 with the other library versions specified in `requirements.txt`.  If you use the latest library versions, then you'll
 likely want to ensure you also use the latest Protobuf Compiler.
     ```
@@ -42,13 +49,13 @@ likely want to ensure you also use the latest Protobuf Compiler.
     sudo mv protoc3/include/* /usr/include/
     ```
     
-8. Run protocol buffer compiler against the object detector
+10. Run protocol buffer compiler against the object detector
     ```
     cd models/research
     protoc object_detection/protos/*.proto --python_out=.
     ```
 
-9. Ensure tkinter is installed for the purpose of displaying images when running a Python script from the command line
+11. Ensure tkinter is installed for the purpose of displaying images when running a Python script from the command line
     `sudo apt-get install python3-tk`
 
 ## Using Pre-trained Object Detection Models
