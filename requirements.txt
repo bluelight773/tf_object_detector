@@ -1,7 +1,7 @@
 # To ensure installation of libraries succeeds
 wheel
 
-tensorflow-gpu==1.13.1
+tensorflow-gpu==2.5.1
 pillow==6.2.0
 lxml==4.3.4
 matplotlib==3.1.0
